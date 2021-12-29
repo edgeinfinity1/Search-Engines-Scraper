@@ -57,8 +57,6 @@ As a CLI script:
 $ python search_engines_cli.py -e google,bing -q "my query" -o json,print
 ```
 
-## License
+## Other versions  
 
-MIT © [Search-Engines-Scraper](https://github.com/tasos-py/Search-Engines-Scraper)
-
-Original creator - Tasos M Adamopoulos
+ - [async-search-scraper](https://github.com/soxoj/async-search-scraper) A really cool asynchronous implementation, written by @soxoj   
