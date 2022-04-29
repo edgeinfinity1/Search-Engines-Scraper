@@ -175,6 +175,7 @@ class SearchEngine(object):
         '''
         self.print_func('Searching {}'.format(self.__class__.__name__))
         self._query = utils.decode_bytes(query)
+        self.results = SearchResults()
         request = await self._first_page()
 
         for page in range(1, pages + 1):
