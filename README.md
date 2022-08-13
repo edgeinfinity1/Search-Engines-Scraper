@@ -14,6 +14,7 @@ _[Aol](https://search.aol.com)_
 _[Dogpile](https://www.dogpile.com)_  
 _[Ask](https://uk.ask.com)_  
 _[Mojeek](https://www.mojeek.com)_  
+_[Brave](https://search.brave.com/)_  
 _[Torch](http://xmh57jrzrnw6insl.onion/4a1f6b371c/search.cgi)_  
 
 ## Features  
