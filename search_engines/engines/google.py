@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 
 class Google(SearchEngine):
     '''Searches google.com'''
-    def __init__(self, proxy=PROXY, timeout=TIMEOUT, *args, **kwargs):
-        super(Google, self).__init__(proxy, timeout, *args, **kwargs)
+    def __init__(self, proxy=PROXY, timeout=TIMEOUT):
+        super(Google, self).__init__(proxy, timeout)
         self._base_url = 'https://www.google.com'
         self._delay = (2, 6)
         
@@ -29,9 +29,7 @@ class Google(SearchEngine):
         url = u'{}/search?q={}'.format(self._base_url, quote_url(self._query, ''))
         response = self._get_page(url)
         bs = BeautifulSoup(response.html, "html.parser")
-
-        url = bs.select_one('noscript a')['href']
-        url = u'{}/search?{}'.format(self._base_url, url)
+        noscript_link = bs.select_one('noscript a')
         response = self._get_page(url)
         bs = BeautifulSoup(response.html, "html.parser")
 
