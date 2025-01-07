@@ -11,11 +11,7 @@ except ImportError as e:
     raise ImportError(msg.format(str(e)))
 
 
-<<<<<<< HEAD
-def main():
-=======
 async def main():
->>>>>>> soxoj-master
     """
     Main function to handle command-line arguments and perform the search using specified search engines.
     
