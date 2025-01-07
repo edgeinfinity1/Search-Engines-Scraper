@@ -1,2 +1,7 @@
 requests[socks]>=2.22.0
+<<<<<<< HEAD
+=======
+aiohttp
+aiohttp_socks
+>>>>>>> soxoj-master
 beautifulsoup4>=4.10.0

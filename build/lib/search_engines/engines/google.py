@@ -26,17 +26,10 @@ class Google(SearchEngine):
         }
         return selectors[element]
     
-<<<<<<< HEAD
-    def _first_page(self):
-        '''Returns the initial page and query.'''
-        url = u'{}/search?q={}'.format(self._base_url, quote_url(self._query, ''))
-        response = self._get_page(url)
-=======
     async def _first_page(self):
         '''Returns the initial page and query.'''
         url = u'{}/search?q={}'.format(self._base_url, quote_url(self._query, ''))
         response = await self._get_page(url)
->>>>>>> soxoj-master
         bs = BeautifulSoup(response.html, "html.parser")
         
         noscript_link = bs.select_one('noscript a')
@@ -60,11 +53,7 @@ class Google(SearchEngine):
                 msg = "Warning: Could not find expected 'noscript a' element or any 'a' tag with 'data-ved'. Using original URL."
                 out.console(msg, level=out.Level.error)
         
-<<<<<<< HEAD
-        response = self._get_page(url)
-=======
         response = await self._get_page(url)
->>>>>>> soxoj-master
         bs = BeautifulSoup(response.html, "html.parser")
 
         inputs = {i['name']:i.get('value') for i in bs.select('form input[name]') if i['name'] != 'btnI'}
@@ -98,26 +87,13 @@ class Google(SearchEngine):
         tag = tag.select_one(self._selectors('text'))
         return '\n'.join(list(tag.stripped_strings)[2:]) if tag else ''
 
-<<<<<<< HEAD
-    def _check_consent(self, page):
-=======
     async def _check_consent(self, page):
->>>>>>> soxoj-master
         '''Checks if cookies consent is required'''
         url = 'https://consent.google.com/save'
         bs = BeautifulSoup(page.html, "html.parser")
         consent_form = bs.select('form[action="{}"] input[name]'.format(url))
         if consent_form:
             data = {i['name']:i.get('value') for i in consent_form if i['name'] not in ['set_sc', 'set_aps']}
-<<<<<<< HEAD
-            page = self._get_page(url, data)
-        return page
-
-    def _get_page(self, page, data=None):
-        '''Gets pagination links.'''
-        page = super(Google, self)._get_page(page, data)
-        page = self._check_consent(page)
-=======
             page = await self._get_page(url, data)
         return page
 
@@ -125,5 +101,4 @@ class Google(SearchEngine):
         '''Gets pagination links.'''
         page = await super(Google, self)._get_page(page, data)
         page = await self._check_consent(page)
->>>>>>> soxoj-master
         return page

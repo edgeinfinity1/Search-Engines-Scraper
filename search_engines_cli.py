@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 import argparse
+import asyncio
 
 try:
     from search_engines.engines import search_engines_dict
@@ -10,7 +11,11 @@ except ImportError as e:
     raise ImportError(msg.format(str(e)))
 
 
+<<<<<<< HEAD
 def main():
+=======
+async def main():
+>>>>>>> soxoj-master
     """
     Main function to handle command-line arguments and perform the search using specified search engines.
     
@@ -66,13 +71,11 @@ def main():
         if args.f:
             engine.set_search_operator(args.f)
         
-        engine.search(args.q, args.p)
+        async with engine as e:
+            await e.search(args.q, args.p)
+
         engine.output(args.o, args.n)
 
 if __name__ == '__main__':
-    """
-    If the script is executed directly, call the main function.
-    
-    This ensures the script can be used both as an importable module and a standalone script.
-    """
-    main()
+    asyncio.get_event_loop().run_until_complete(main())
+
