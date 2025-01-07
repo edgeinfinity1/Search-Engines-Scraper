@@ -180,11 +180,7 @@ class SearchEngine(object):
         self.print_func('Searching {}'.format(self.__class__.__name__))
         self._query = utils.decode_bytes(query)
         self.results = SearchResults()
-<<<<<<< HEAD
-        request = self._first_page()
-=======
         request = await self._first_page()
->>>>>>> soxoj-master
 
         for page in range(1, pages + 1):
             try:
