@@ -1,8 +1,5 @@
-import aiohttp
+import httpx
 from collections import namedtuple
-
-from aiohttp_socks import ProxyConnector
-
 from .config import TIMEOUT, PROXY, USER_AGENT
 from . import utils as utl
 
@@ -10,12 +7,12 @@ from . import utils as utl
 class HttpClient(object):
     '''Performs HTTP requests. A `aiohttp` wrapper, essentialy'''
     def __init__(self, timeout=TIMEOUT, proxy=PROXY):
+        kwargs = {}
         if proxy:
-            connector = ProxyConnector.from_url(proxy)
-            self.session = aiohttp.ClientSession(connector=connector)
+            kwargs.update({"proxy": proxy})
         else:
-            self.session = aiohttp.ClientSession()
-
+            pass
+        self.session = httpx.AsyncClient(**kwargs)
         self.headers = {
             'User-Agent': USER_AGENT,
             'Accept-Language': 'en-GB,en;q=0.5',
@@ -25,29 +22,29 @@ class HttpClient(object):
         self.response = namedtuple('response', ['http', 'html'])
 
     async def close(self):
-        await self.session.close()
+        await self.session.aclose()
 
     async def get(self, page):
         '''Submits a HTTP GET request.'''
         page = self._quote(page)
         try:
-            req = await self.session.get(page, headers=self.headers, timeout=self.timeout)
-            text = await req.text()
+            req = await self.session.get(page, headers=self.headers, timeout=self.timeout, follow_redirects=True)
+            text = req.text
             self.headers['Referer'] = page
-        except aiohttp.client_exception.ClientError as e:
+        except Exception as e:
             return self.response(http=0, html=e.__doc__)
-        return self.response(http=req.status, html=text)
+        return self.response(http=req.status_code, html=text)
     
     async def post(self, page, data):
         '''Submits a HTTP POST request.'''
         page = self._quote(page)
         try:
-            req = await self.session.post(page, data=data, headers=self.headers, timeout=self.timeout)
-            text = await req.text()
+            req = await self.session.post(page, data=data, headers=self.headers, timeout=self.timeout, follow_redirects=True)
+            text = req.text
             self.headers['Referer'] = page
-        except aiohttp.client_exception.ClientError as e:
+        except Exception as e:
             return self.response(http=0, html=e.__doc__)
-        return self.response(http=req.status, html=text)
+        return self.response(http=req.status_code, html=text)
     
     def _quote(self, url):
         '''URL-encodes URLs.'''
@@ -62,4 +59,3 @@ class HttpClient(object):
                 raise ValueError('Invalid proxy format!')
             proxy = {'http':proxy, 'https':proxy}
         return proxy
-

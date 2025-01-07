@@ -59,7 +59,7 @@ class Google(SearchEngine):
         inputs = {i['name']:i.get('value') for i in bs.select('form input[name]') if i['name'] != 'btnI'}
         inputs['q'] = quote_url(self._query, '')
         url = u'{}/search?{}'.format(self._base_url, '&'.join([k + '=' + (v or '') for k,v in inputs.items()]))
-
+        
         return {'url':url, 'data':None}
     
     def _next_page(self, tags):
