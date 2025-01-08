@@ -24,6 +24,13 @@ class HttpClient(object):
     async def close(self):
         await self.session.aclose()
 
+    # def __del__(self):
+    #     try:
+    #         asyncio.run(self.close())
+    #     except:
+    #         loop = asyncio.get_running_loop()
+    #         loop.run_until_complete(self.close())
+
     async def get(self, page):
         '''Submits a HTTP GET request.'''
         page = self._quote(page)

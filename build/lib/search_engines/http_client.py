@@ -1,4 +1,5 @@
 import httpx
+import asyncio
 from collections import namedtuple
 from .config import TIMEOUT, PROXY, USER_AGENT
 from . import utils as utl
@@ -23,6 +24,13 @@ class HttpClient(object):
 
     async def close(self):
         await self.session.aclose()
+
+    # def __del__(self):
+    #     try:
+    #         asyncio.run(self.close())
+    #     except:
+    #         loop = asyncio.get_running_loop()
+    #         loop.run_until_complete(self.close())
 
     async def get(self, page):
         '''Submits a HTTP GET request.'''

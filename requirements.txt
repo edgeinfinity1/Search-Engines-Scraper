@@ -1,4 +1,4 @@
-requests[socks]>=2.22.0
-aiohttp
-aiohttp_socks
+httpx[socks]
 beautifulsoup4>=4.10.0
+requests
+asyncio
