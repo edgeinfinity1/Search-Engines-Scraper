@@ -1,5 +1,4 @@
 import httpx
-import asyncio
 from collections import namedtuple
 from .config import TIMEOUT, PROXY, USER_AGENT
 from . import utils as utl
